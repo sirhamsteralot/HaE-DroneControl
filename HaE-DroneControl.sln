@@ -5,13 +5,49 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaE-DroneControl", "HaE-DroneControl\HaE-DroneControl.csproj", "{CE31FB2C-512B-4DA8-8EDA-AF9D558EAF48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaE DroneControl Base", "HaE DroneControl Base\HaE DroneControl Base.csproj", "{20A959ED-3A84-4C0E-8AC3-8E5AB80E99AC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE EntityTrackingModule", "..\..\..\MDK_Projects\Shared Projects\EntityTrackingModule\HaE EntityTrackingModule.shproj", "{BFA2687A-1112-44DF-BC64-F0FC7F2A1D32}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE Autopilot Module", "..\..\..\MDK_Projects\Shared Projects\HaE Autopilot Module\HaE Autopilot Module.shproj", "{4EFA3DC1-C6DF-4853-962D-E2998290B240}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE Comms", "..\..\..\MDK_Projects\Shared Projects\HaE Comms\HaE Comms.shproj", "{0563C763-5B65-4A47-8A5B-2176876D7EAF}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE DebugUtils", "..\..\..\MDK_Projects\Shared Projects\HaE DebugUtils\HaE DebugUtils.shproj", "{DCDCEEA4-BFF4-4D63-A9C8-81DFF30FB34A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE GridTerminalSystemUtils", "..\..\..\MDK_Projects\Shared Projects\HaE GridTerminalSystemUtils\HaE GridTerminalSystemUtils.shproj", "{EC6DFC99-0769-41FC-96A3-029FBEB3A7A1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE Scheduler", "..\..\..\MDK_Projects\Shared Projects\HaE Scheduler\HaE Scheduler.shproj", "{32A2473A-3095-4B7B-8362-456C72003FEB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE Serialization", "..\..\..\MDK_Projects\Shared Projects\HaE Serialization\HaE Serialization.shproj", "{633D8B24-4B3B-4C26-9480-DBA498CC7831}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE Targeting", "..\..\..\MDK_Projects\Shared Projects\HaE Targeting\HaE Targeting.shproj", "{2C0B9AAB-8C08-40EF-A9F4-980DBA0E4B11}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE Timing", "..\..\..\MDK_Projects\Shared Projects\HaE Timing\HaE Timing.shproj", "{36C0DEEB-8ADE-4156-AEA7-9DF3C620F474}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaE MathUtils", "..\..\..\MDK_Projects\Shared Projects\VectorUtils\HaE MathUtils.shproj", "{2D034700-8C67-41B0-B3C8-5510D21E52C3}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\MDK_Projects\Shared Projects\HaE Comms\HaE Comms.projitems*{0563c763-5b65-4a47-8a5b-2176876d7eaf}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE Targeting\HaE Targeting.projitems*{2c0b9aab-8c08-40ef-a9f4-980dba0e4b11}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\VectorUtils\VectorUtils.projitems*{2d034700-8c67-41b0-b3c8-5510d21e52c3}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE Scheduler\HaE Scheduler.projitems*{32a2473a-3095-4b7b-8362-456c72003feb}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE Timing\HaE Timing.projitems*{36c0deeb-8ade-4156-aea7-9df3c620f474}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE Autopilot Module\HaE Autopilot Module.projitems*{4efa3dc1-c6df-4853-962d-e2998290b240}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE Serialization\HaE Serialization.projitems*{633d8b24-4b3b-4c26-9480-dba498cc7831}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\EntityTrackingModule\EntityTrackingModule.projitems*{bfa2687a-1112-44df-bc64-f0fc7f2a1d32}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE DebugUtils\HaE DebugUtils.projitems*{dcdceea4-bff4-4d63-a9c8-81dff30fb34a}*SharedItemsImports = 13
+		..\..\..\MDK_Projects\Shared Projects\HaE GridTerminalSystemUtils\HaE GridTerminalSystemUtils.projitems*{ec6dfc99-0769-41fc-96a3-029fbeb3a7a1}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CE31FB2C-512B-4DA8-8EDA-AF9D558EAF48}.Debug|x64.ActiveCfg = Debug|x64
 		{CE31FB2C-512B-4DA8-8EDA-AF9D558EAF48}.Debug|x64.Build.0 = Debug|x64
+		{20A959ED-3A84-4C0E-8AC3-8E5AB80E99AC}.Debug|x64.ActiveCfg = Debug|x64
+		{20A959ED-3A84-4C0E-8AC3-8E5AB80E99AC}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
