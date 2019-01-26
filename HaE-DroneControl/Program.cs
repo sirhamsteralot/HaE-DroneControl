@@ -19,7 +19,8 @@ namespace IngameScript
 {
     partial class Program : MyGridProgram
     {
-
+        EntityTracking_Module entityTracking;
+        Autopilot_Module autopilotModule;
 
         public Program()
         {
