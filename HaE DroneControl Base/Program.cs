@@ -19,21 +19,53 @@ namespace IngameScript
 {
     partial class Program : MyGridProgram
     {
-
+        IngameTime time;
+        DroneManagement droneManagement;
 
         public Program()
         {
+            time = new IngameTime();
+            droneManagement = new DroneManagement(time, IGC);
+            droneManagement.P = this;
 
-        }
-
-        public void Save()
-        {
-
+            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100;
         }
 
         public void Main(string argument, UpdateType updateSource)
         {
+            if ((updateSource & UpdateType.Update1) != 0)
+                Update1();
+            if ((updateSource & UpdateType.Update100) != 0)
+                Update100();
 
+            if ((updateSource & UpdateType.Terminal | UpdateType.Trigger) != 0)
+                HandleUserCommands(argument);
+        }
+
+        public void HandleUserCommands(string arg)
+        {
+            switch (arg)
+            {
+                case "Test":
+                    Vector3D targetpos = Vector3D.Zero;
+                    droneManagement.SendDroneToPosition(targetpos);
+                    break;
+            }
+        }
+
+        public void Update1()
+        {
+            droneManagement.CheckPendingMessages();
+            time.Tick(Runtime.TimeSinceLastRun);
+        }
+
+        int tickcounter;
+        public void Update100()
+        {
+            if ((tickcounter++ % 10) != 0)
+                return;
+
+            droneManagement.PingKeepAlive();
         }
     }
 }

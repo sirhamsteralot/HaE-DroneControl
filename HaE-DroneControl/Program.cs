@@ -25,19 +25,20 @@ namespace IngameScript
         AutoPilot autoPilot;
         IngameTime time;
         Scheduler scheduler;
+        InterGridComms comms;
 
         INISerializer iniSerializer;
 
         IMyShipController controller;
 
-
+        bool loaded = false;
         GridTerminalSystemUtils GTS;
 
         public Program()
         {
             scheduler = new Scheduler();
             scheduler.AddTask(Init());
-            Runtime.UpdateFrequency = UpdateFrequency.Update1;
+            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100; ;
         }
 
         public IEnumerator<bool> Init()
@@ -66,6 +67,13 @@ namespace IngameScript
 
             entityTracking = new EntityTracking_Module(GTS, controller, null, EntityTracking_Module.refExpSettings.Turret);
             autoPilot = new AutoPilot(GTS, controller, time, entityTracking);
+            yield return true;
+
+            comms = new InterGridComms(IGC, time, Me);
+            comms.P = this;
+            yield return true;
+            RegisterCommands();
+            loaded = true;
         }
 
         public void Save()
@@ -77,14 +85,50 @@ namespace IngameScript
         {
             if ((updateSource & UpdateType.Update1) != 0)
                 Update1();
-
-            autoPilot.Main();
+            if ((updateSource & UpdateType.Update100) != 0)
+                Update100();
         }
 
         public void Update1()
         {
-            time.Tick();
+            if (loaded)
+            {
+                time.Tick(Runtime.TimeSinceLastRun);
+                comms.CheckPendingMessages();
+                autoPilot.Main();
+            }
             scheduler.Main();
         }
+
+        public void Update100()
+        {
+            if (loaded)
+                UpdateStatus();
+        }
+
+        public void RegisterCommands()
+        {
+            comms.RegisterCommand("FlyToPoint", FlyToPoint);
+        }
+
+        #region commands
+        private void FlyToPoint(object point)
+        {
+            Vector3D vPoint = (Vector3D)point;
+
+            autoPilot.TravelToPosition(vPoint, false);
+        }
+        #endregion
+        #region send
+        int tickcounter;
+        private void UpdateStatus()
+        {
+            if ((tickcounter++ % 10) != 0)
+                return;
+
+            Echo($"Sending Status Message: {time.Time.TotalSeconds}");
+            comms.comms.SendUnicastMessage(comms.serverEndPoint, "UpdateStatus", (int)autoPilot.currentMode);
+        }
+        #endregion
     }
 }
