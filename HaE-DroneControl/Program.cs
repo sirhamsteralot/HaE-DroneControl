@@ -38,7 +38,7 @@ namespace IngameScript
         {
             scheduler = new Scheduler();
             scheduler.AddTask(Init());
-            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100; ;
+            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100;
         }
 
         public IEnumerator<bool> Init()
@@ -85,7 +85,7 @@ namespace IngameScript
         {
             if ((updateSource & UpdateType.Update1) != 0)
                 Update1();
-            if ((updateSource & UpdateType.Update100) != 0)
+            if ((updateSource & UpdateType.Update100) != 0) 
                 Update100();
         }
 
@@ -126,7 +126,7 @@ namespace IngameScript
             if ((tickcounter++ % 10) != 0)
                 return;
 
-            Echo($"Sending Status Message: {time.Time.TotalSeconds}");
+            Echo($"status: {autoPilot.currentMode}");
             comms.comms.SendUnicastMessage(comms.serverEndPoint, "UpdateStatus", (int)autoPilot.currentMode);
         }
         #endregion

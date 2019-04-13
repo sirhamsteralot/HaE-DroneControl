@@ -29,11 +29,13 @@ namespace IngameScript
             public IMyUnicastListener uniComms => comms.UnicastListener;
             public long MyId => comms.Me;
 
+            public PositionOctree<Drone> dronesByPosition;
             public Dictionary<long, Drone> drones;
             public Dictionary<string, Action<object>> commands;
 
             public DroneManagement(IngameTime time, IMyIntergridCommunicationSystem comms)
             {
+                dronesByPosition = new PositionOctree<Drone>();
                 drones = new Dictionary<long, Drone>();
                 commands = new Dictionary<string, Action<object>>();
 
@@ -84,15 +86,25 @@ namespace IngameScript
 
             public void SendDroneToPosition(Vector3D position)
             {
-                foreach (var drone in drones.Values)
+                List<Vector3D> filter = new List<Vector3D>();
+                var temp = dronesByPosition.FindNearbyLeaf(position);
+                if (!temp.HasValue)
+                    return;
+                var leaf = temp.Value;
+
+
+                Drone drone = leaf.payload;
+                while (!(drone.autopilotStatus == AutoPilot.AutopilotMode.Idle))
                 {
-                    if (drone.autopilotStatus == AutoPilot.AutopilotMode.Idle)
-                    {
-                        P?.Echo($"Sending Drone {drone.id} to position: {position}");
-                        drone.FlyToPoint(position);
+                    filter.Add(drone.position);
+                    if (!dronesByPosition.TryFindNearbyLeaf(position, ref leaf, filter))
                         return;
-                    }
+                    drone = leaf.payload;
                 }
+
+                P?.Echo($"Sending Drone {drone.id} to position: {position}");
+                drone.FlyToPoint(position);
+                return;
             }
 
             private void UpdateStatus(MyIGCMessage message)
@@ -111,7 +123,18 @@ namespace IngameScript
                 Drone drone;
                 if (drones.TryGetValue(droneID, out drone))
                 {
-                    drone.ReturnPosition((Vector3D)message.Data);
+                    Vector3D position = (Vector3D)message.Data;
+                    PositionOctree<Drone>.Leaf? leaf = new PositionOctree<Drone>.Leaf();
+
+                    if (dronesByPosition.TryDeleteLeafAt(drone.position, ref leaf)) {
+                        drone.ReturnPosition(position);
+
+                        dronesByPosition.TryAddLeaf(drone.position, drone);
+                        return;
+                    }
+
+                    drone.ReturnPosition(position);
+                    dronesByPosition.TryAddLeaf(drone.position, drone);
                 }
             }
 
